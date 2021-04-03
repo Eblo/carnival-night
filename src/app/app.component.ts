@@ -16,33 +16,39 @@ export class AppComponent implements OnInit, AfterViewInit {
   @ViewChild('barrelSprite') barrel!: AnimatedSpriteComponent;
 
   zoom: number = 1;
-
   ngOnInit(): void {
   }
 
   ngAfterViewInit(): void {
-    this.sonicCanvas.nativeElement.width = window.innerWidth;
-    this.sonicCanvas.nativeElement.height = window.innerHeight;
     let context = this.sonicCanvas.nativeElement.getContext('2d');
     // Angular will bitch if we don't do this check
     if(context != null) {
       this.context = context;
       this.context.scale(this.zoom, this.zoom);
+      this.tick();
     }
-    this.tick();
   }
 
   tick(): void {
+    this.sonicCanvas.nativeElement.width = window.innerWidth * 0.9;
+    this.sonicCanvas.nativeElement.height = window.innerHeight * 0.67;
     let time = Date.now();    
     this.context.clearRect(0, 0, this.sonicCanvas.nativeElement.width, this.sonicCanvas.nativeElement.height);
-    this.drawSprite(this.barrel, 0, this.character.sprite.height, time);
-    let x = (this.barrel.width / this.barrel.frames + this.character.width / this.character.frames) / 2;
-    this.drawSprite(this.character, x, 0, time);
+    let baseY = this.centerSpriteY(this.character);
+    this.character.drawToCanvas(this.context, this.centerSpriteX(this.character), baseY, time);
+    this.barrel.drawToCanvas(this.context, this.centerSpriteX(this.barrel), baseY+ this.character.height, time);
     requestAnimationFrame(() => this.tick());
   }
 
-  drawSprite(sprite: AnimatedSpriteComponent, x: number, y: number, time: number): void {
-    sprite.animate(time);
-    this.context.drawImage(sprite.sprite, sprite.width * sprite.frame, 0, sprite.width, sprite.height, x, y, sprite.width, sprite.height);
+  centerSpriteX(sprite: AnimatedSpriteComponent): number {
+    return (this.sonicCanvas.nativeElement.width - sprite.width / sprite.frames) / 2;
+  }
+
+  centerSpriteY(sprite: AnimatedSpriteComponent): number {
+    return (this.sonicCanvas.nativeElement.height - sprite.height) / 2;
+  }
+
+  characterPosition(): number {
+    return 0;
   }
 }

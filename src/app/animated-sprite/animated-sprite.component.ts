@@ -16,18 +16,23 @@ export class AnimatedSpriteComponent implements OnInit {
 
   currentTime: number = Date.now();
   frameDuration: number = 0; // TODO: May also depend on character's distance from barrel and if it moves
+  ready: boolean = false;
   // Barrel reference: https://youtu.be/dZQy1vO1naQ?t=2421
 
-  sprite = new Image();
+  sprite!: HTMLImageElement;
 
 
   constructor() { }
 
   ngOnInit(): void {
+    this.sprite = new Image();
+    this.sprite.onload = () => {
+      this.frameDuration = 1000 / this.frameRate;
+      this.width = this.sprite.width / this.frames;
+      this.height = this.sprite.height;
+      this.ready = true;
+    };
     this.sprite.src = this.graphic;
-    this.frameDuration = 1000 / this.frameRate;
-    this.width = this.sprite.width / this.frames;
-    this.height = this.sprite.height;
   }
 
   animate(newTime: number) {
@@ -39,6 +44,14 @@ export class AnimatedSpriteComponent implements OnInit {
         this.frame = 0;
       }
     }
+  }
+
+  drawToCanvas(context: CanvasRenderingContext2D, x: number, y: number, time: number): void {
+    if(this.ready == false) {
+      return;
+    }
+    this.animate(time);
+    context.drawImage(this.sprite, this.width * this.frame, 0, this.width, this.height, x, y, this.width, this.height);
   }
 
 }
