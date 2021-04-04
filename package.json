@@ -8,7 +8,8 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "build-for-github": "npm run build -- --prod --baseHref=https://eblo.github.io/carnival-night/"
+    "build-for-github": "npm run build -- --prod --baseHref=https://eblo.github.io/carnival-night/",
+    "serve": "http-server docs"
   },
   "private": true,
   "dependencies": {

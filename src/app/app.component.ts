@@ -16,6 +16,18 @@ export class AppComponent implements OnInit, AfterViewInit {
   @ViewChild('barrelSprite') barrel!: AnimatedSpriteComponent;
 
   zoom: number = 1;
+  currentTime = Date.now();
+
+  barrelConstant: number = 1.0;
+  barrelBaseline: number = 0;
+  barrelSpeed: number = 0.0;
+  barrelPos: number = 0;
+  maxBarrelPos: number = 100;
+  minBarrelPos: number = -100;
+  barrelAcceleration: number = 0.075;
+
+  songSource: string = 'https://a.tumblr.com/tumblr_m7h6wq4sy31rau0lpo1.mp3'; // TODO: Make this a config property
+
   ngOnInit(): void {
   }
 
@@ -30,14 +42,26 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   tick(): void {
-    this.sonicCanvas.nativeElement.width = window.innerWidth * 0.9;
-    this.sonicCanvas.nativeElement.height = window.innerHeight * 0.67;
+    this.sonicCanvas.nativeElement.width = window.innerWidth * 0.95;
+    this.sonicCanvas.nativeElement.height = window.innerHeight * 0.90;
     let time = Date.now();    
     this.context.clearRect(0, 0, this.sonicCanvas.nativeElement.width, this.sonicCanvas.nativeElement.height);
-    let baseY = this.centerSpriteY(this.character);
-    this.character.drawToCanvas(this.context, this.centerSpriteX(this.character), baseY, time);
-    this.barrel.drawToCanvas(this.context, this.centerSpriteX(this.barrel), baseY+ this.character.height, time);
+    this.advanceBounce(time);
+    let baseY = this.centerSpriteY(this.barrel) + this.character.height + this.barrelPos;
+    this.barrel.drawToCanvas(this.context, this.centerSpriteX(this.barrel), baseY, time);
+    this.character.drawToCanvas(this.context, this.centerSpriteX(this.character), baseY-this.character.height, time);
     requestAnimationFrame(() => this.tick());
+  }
+
+  advanceBounce(time: number): void {
+    let elapsedTime = time - this.currentTime;
+    this.currentTime = time;
+    this.barrelPos = Math.max(this.minBarrelPos, Math.min(elapsedTime * this.barrelSpeed, this.maxBarrelPos));
+    this.barrelSpeed += elapsedTime * this.barrelAcceleration;
+    if((this.barrelPos == this.maxBarrelPos && this.barrelAcceleration > 0) ||
+        (this.barrelPos == this.minBarrelPos && this.barrelAcceleration < 0)) {
+      this.barrelAcceleration *= -1;
+    }
   }
 
   centerSpriteX(sprite: AnimatedSpriteComponent): number {
