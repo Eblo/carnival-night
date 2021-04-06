@@ -1,6 +1,6 @@
 {
   "name": "carnival-night",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -8,12 +8,13 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "build-for-github": "npm run build -- --prod --baseHref=https://eblo.github.io/carnival-night/",
+    "build-for-github": "npm run build -- --prod --baseHref=https://carnivalnight.zone/",
     "serve": "http-server docs"
   },
   "private": true,
   "dependencies": {
     "@angular/animations": "~11.2.7",
+    "@angular/cdk": "^11.2.7",
     "@angular/common": "~11.2.7",
     "@angular/compiler": "~11.2.7",
     "@angular/core": "~11.2.7",

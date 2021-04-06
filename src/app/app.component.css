@@ -1,8 +1,30 @@
-/*https://developer.mozilla.org/en-US/docs/Games/Techniques/Crisp_pixel_art_look*/
 canvas {
     padding-left: 0;
     padding-right: 0;
     margin-left: auto;
     margin-right: auto;
     display: block;
+}
+
+button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.credits {
+    color: white;
+    position: fixed;
+    top: 5em;
+    left: 1em;
+    z-index: 2;
+    cursor: pointer;
+    background: rgba(33,31,34,0.75);
+    padding-right: 0.5em;
+    padding-left: 1.5em;
+    padding-top: 0.25em;
+}
+
+.credits a {
+    color: white;
 }

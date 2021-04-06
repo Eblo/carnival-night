@@ -1,0 +1,26 @@
+{
+    "characters": ["sonic", "knuckles", "tails"],
+    "charactersPath": "assets/character/*.png",
+    "songSource": "https://a.tumblr.com/tumblr_m7h6wq4sy31rau0lpo1.mp3",
+    "barrelSpeed": 0.005,
+    "barrelAmplitude": 100,
+    "about": {
+        "roles": [
+            {
+                "role": "Concept",
+                "handle": "@Ginger_Hail",
+                "link": "https://twitter.com/Ginger_Hail"
+            },
+            {
+                "role": "Programming",
+                "handle": "@EbloG",
+                "link": "https://twitter.com/Eblo_G"
+            }
+        ],
+        "copyright" : "All characters and music are copyright © SEGA"
+    },
+    "audio": {
+        "icon": "/assets/audio.png",
+        "mutedIcon": "/assets/audiomuted.png"
+    }
+}

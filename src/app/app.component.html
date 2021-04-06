@@ -1,6 +1,16 @@
-<audio controls loop>
+<audio #bgm loop crossorigin="anonymous">
     <source [src]="songSource" type="audio/mpeg">
 </audio>
+<br />
+<button (click)="toggleAbout()"><img src="/assets/about.png"></button>
+<button (click)="toggleAudio()"><img [src]="audioIcon"></button>
+    <div (click)="toggleAbout()" class="credits" [hidden]="!aboutVisible">
+        <li *ngFor="let credit of about.roles">
+            <span><b>{{ credit.role }}: </b></span>
+            <span><a href="{{ credit.link }} ">{{ credit.handle }}</a></span>
+        </li>
+        <p>{{ about.copyright }}</p>
+    </div>
 <canvas #sonicCanvas></canvas>
-<app-animated-sprite #characterSprite graphic="assets/sonic.png" [frames]="12" [frameRate]="12"></app-animated-sprite>
+<app-animated-sprite #characterSprite [graphic]="character" [frames]="12" [frameRate]="12"></app-animated-sprite>
 <app-animated-sprite #barrelSprite graphic="assets/barrel.png" [frames]="4" [frameRate]="15"></app-animated-sprite>

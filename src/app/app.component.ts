@@ -1,5 +1,6 @@
 import { Component, ViewChild, AfterViewInit, ElementRef, OnInit } from '@angular/core';
 import { AnimatedSpriteComponent } from './animated-sprite/animated-sprite.component';
+import { AppConfigService } from './app-config.service';
 
 @Component({
   selector: 'app-root',
@@ -12,21 +13,33 @@ export class AppComponent implements OnInit, AfterViewInit {
   @ViewChild('sonicCanvas') sonicCanvas!: ElementRef<HTMLCanvasElement>;
   context!: CanvasRenderingContext2D;
 
-  @ViewChild('characterSprite') character!: AnimatedSpriteComponent;
+  @ViewChild('bgm') audio!: ElementRef;
+  audioIcon: string = '/assets/audiomute.png';
+
+  @ViewChild('characterSprite') characterSprite!: AnimatedSpriteComponent;
   @ViewChild('barrelSprite') barrel!: AnimatedSpriteComponent;
 
   zoom: number = 1;
-  currentTime = Date.now();
 
-  barrelConstant: number = 1.0;
-  barrelBaseline: number = 0;
-  barrelSpeed: number = 0.0;
+  barrelSpeed: number;
   barrelPos: number = 0;
-  maxBarrelPos: number = 100;
-  minBarrelPos: number = -100;
-  barrelAcceleration: number = 0.075;
+  barrelAmplitude: number;
 
-  songSource: string = 'https://a.tumblr.com/tumblr_m7h6wq4sy31rau0lpo1.mp3'; // TODO: Make this a config property
+  character: string;
+  songSource: string;
+  about: any;
+  appConfigService: AppConfigService;
+
+  aboutVisible = false;
+
+  constructor(appConfigService: AppConfigService) {
+    this.appConfigService = appConfigService;
+    this.character = this.appConfigService.getRandomCharacter();
+    this.songSource = this.appConfigService.getSongSource();
+    this.barrelSpeed = this.appConfigService.getBarrelSpeed();
+    this.barrelAmplitude = this.appConfigService.getBarrelAmplitude();
+    this.about = this.appConfigService.getAbout();
+  }
 
   ngOnInit(): void {
   }
@@ -42,26 +55,19 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   tick(): void {
-    this.sonicCanvas.nativeElement.width = window.innerWidth * 0.95;
-    this.sonicCanvas.nativeElement.height = window.innerHeight * 0.90;
+    this.sonicCanvas.nativeElement.width = window.innerWidth;
+    this.sonicCanvas.nativeElement.height = window.innerHeight;
     let time = Date.now();    
     this.context.clearRect(0, 0, this.sonicCanvas.nativeElement.width, this.sonicCanvas.nativeElement.height);
     this.advanceBounce(time);
-    let baseY = this.centerSpriteY(this.barrel) + this.character.height + this.barrelPos;
+    let baseY = this.centerSpriteY(this.barrel) + this.characterSprite.height + this.barrelPos;
     this.barrel.drawToCanvas(this.context, this.centerSpriteX(this.barrel), baseY, time);
-    this.character.drawToCanvas(this.context, this.centerSpriteX(this.character), baseY-this.character.height, time);
+    this.characterSprite.drawToCanvas(this.context, this.centerSpriteX(this.characterSprite), baseY-this.characterSprite.height, time);
     requestAnimationFrame(() => this.tick());
   }
 
   advanceBounce(time: number): void {
-    let elapsedTime = time - this.currentTime;
-    this.currentTime = time;
-    this.barrelPos = Math.max(this.minBarrelPos, Math.min(elapsedTime * this.barrelSpeed, this.maxBarrelPos));
-    this.barrelSpeed += elapsedTime * this.barrelAcceleration;
-    if((this.barrelPos == this.maxBarrelPos && this.barrelAcceleration > 0) ||
-        (this.barrelPos == this.minBarrelPos && this.barrelAcceleration < 0)) {
-      this.barrelAcceleration *= -1;
-    }
+    this.barrelPos = this.barrelAmplitude * Math.cos(this.barrelSpeed * time);
   }
 
   centerSpriteX(sprite: AnimatedSpriteComponent): number {
@@ -69,10 +75,27 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   centerSpriteY(sprite: AnimatedSpriteComponent): number {
-    return (this.sonicCanvas.nativeElement.height - sprite.height) / 2;
+    return (this.sonicCanvas.nativeElement.height - sprite.height) / 4;
   }
 
   characterPosition(): number {
+    // TODO: This would be used for the character's position on the barrel. Farther from the center
+    // means horizontal movement
     return 0;
   }
+
+  toggleAbout(): void {
+    this.aboutVisible = !this.aboutVisible;
+  }
+
+  toggleAudio(): void {
+    if(this.audio.nativeElement.paused) {
+      this.audio.nativeElement.play();
+      this.audioIcon = this.appConfigService.getAudioIcon();
+    } else {      
+      this.audio.nativeElement.muted = !this.audio.nativeElement.muted;
+      this.audioIcon = this.audio.nativeElement.muted ? this.appConfigService.getMutedAudioIcon() : this.appConfigService.getAudioIcon();
+    }
+  }
+
 }
