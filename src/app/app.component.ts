@@ -14,7 +14,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   context!: CanvasRenderingContext2D;
 
   @ViewChild('bgm') audio!: ElementRef;
-  audioIcon: string = '/assets/audiomute.png';
+  audioIcon: string;
 
   @ViewChild('characterSprite') characterSprite!: AnimatedSpriteComponent;
   @ViewChild('barrelSprite') barrel!: AnimatedSpriteComponent;
@@ -39,6 +39,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     this.barrelSpeed = this.appConfigService.getBarrelSpeed();
     this.barrelAmplitude = this.appConfigService.getBarrelAmplitude();
     this.about = this.appConfigService.getAbout();
+    this.audioIcon = this.appConfigService.getMutedAudioIcon();
   }
 
   ngOnInit(): void {

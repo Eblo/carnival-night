@@ -21,6 +21,6 @@
     },
     "audio": {
         "icon": "/assets/audio.png",
-        "mutedIcon": "/assets/audiomuted.png"
+        "mutedIcon": "/assets/audiomute.png"
     }
 }
