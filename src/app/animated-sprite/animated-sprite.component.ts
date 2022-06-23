@@ -50,6 +50,7 @@ export class AnimatedSpriteComponent implements OnInit {
     if(this.ready == false) {
       return;
     }
+    this.sprite.src = this.graphic;
     this.animate(time);
     context.drawImage(this.sprite, this.width * this.frame, 0, this.width, this.height, x, y, this.width, this.height);
   }

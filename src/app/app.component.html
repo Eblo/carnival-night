@@ -1,16 +1,28 @@
 <audio #bgm loop crossorigin="anonymous">
-    <source [src]="songSource" type="audio/mpeg">
+    <source [src]="currentSong.source" type="audio/mpeg">
 </audio>
 <br />
-<button (click)="toggleAbout()"><img src="/assets/about.png"></button>
-<button (click)="toggleAudio()"><img [src]="audioIcon"></button>
-    <div (click)="toggleAbout()" class="credits" [hidden]="!aboutVisible">
-        <li *ngFor="let credit of about.roles">
-            <span><b>{{ credit.role }}: </b></span>
-            <span><a href="{{ credit.link }} ">{{ credit.handle }}</a></span>
-        </li>
-        <p>{{ about.copyright }}</p>
-    </div>
+<button (click)="toggleAudio()" title="Toggle Audio"><img [src]="audioIcon"></button>
+<button (click)="toggleOptions()" title="Options"><img src="/assets/options.png"></button>
+<button (click)="toggleAbout()" title="About"><img src="/assets/about.png"></button>
+
+<div (click)="toggleAbout()" class="credits" [hidden]="!aboutVisible">
+   <li *ngFor="let credit of about.roles">
+       <span><b>{{ credit.role }}: </b></span>
+       <span><a href="{{ credit.link }} ">{{ credit.handle }}</a></span>
+   </li>
+   <p>{{ about.copyright }}</p>
+</div>
+
+<div class="options" [hidden]="!optionsVisible">
+    <h3>Songs</h3>
+    <li (click)="setSong(song)" *ngFor="let song of songOptions" [class]="song.class" [title]="song.title">
+        {{ song.title }}
+    </li>
+    <h3>Stars</h3>
+    <img [src]="character.icon" (click)="setCharacter(character)" *ngFor="let character of characterOptions" [class]="character.class" [title]="character.name">
+</div>
+
 <canvas #sonicCanvas></canvas>
-<app-animated-sprite #characterSprite [graphic]="character" [frames]="12" [frameRate]="12"></app-animated-sprite>
+<app-animated-sprite #characterSprite [graphic]="currentCharacter.graphic" [frames]="12" [frameRate]="12"></app-animated-sprite>
 <app-animated-sprite #barrelSprite graphic="assets/barrel.png" [frames]="4" [frameRate]="15"></app-animated-sprite>

@@ -1,7 +1,55 @@
 {
-    "characters": ["sonic", "knuckles", "tails"],
-    "charactersPath": "assets/character/*.png",
-    "songSource": "https://a.tumblr.com/tumblr_m7h6wq4sy31rau0lpo1.mp3",
+    "characters": [
+        {
+            "name": "Sonic",
+            "graphic": "assets/character/sonic.png",
+            "icon": "assets/character/soniclife.png"
+        },
+        {
+            "name": "Tails",
+            "graphic": "assets/character/tails.png",
+            "icon": "assets/character/tailslife.png"
+        },
+        {
+            "name": "K.T.E.",
+            "graphic": "assets/character/knuckles.png",
+            "icon": "assets/character/knuckleslife.png"
+        }
+    ],
+    "songs" : [
+        {
+            "title": "Act 1 (Mega Drive/Genesis)",
+            "source": "https://a.tumblr.com/tumblr_m7h6wq4sy31rau0lpo1.mp3"
+        },
+        {
+            "title": "Act 2 (Mega Drive/Genesis)",
+            "source": "https://a.tumblr.com/tumblr_rdui1wrf0L1qkqf9bo1.mp3"
+        },
+        {
+            "title": "Act 1 (Prototype)",
+            "source": "https://a.tumblr.com/tumblr_q53540uwRd1yzasr0o1.mp3"
+        },
+        {
+            "title": "Act 2 (Prototype)",
+            "source": "https://a.tumblr.com/tumblr_q55e0jKfdS1yzasr0o1.mp3"
+        },
+        {
+            "title": "Act 1 (PC)",
+            "source": "https://a.tumblr.com/tumblr_rduhw21qlt1qkqf9bo1.mp3"
+        },
+        {
+            "title": "Act 2 (PC)",
+            "source": "https://a.tumblr.com/tumblr_rduhxicVWU1qkqf9bo1.mp3"
+        },
+        {
+            "title": "Act 1 (Origins)",
+            "source": "https://a.tumblr.com/tumblr_rduhs3Uoh51qkqf9bo1.mp3"
+        },
+        {
+            "title": "Act 2 (Origins)",
+            "source": "https://a.tumblr.com/tumblr_rduhsnhwd41qkqf9bo1.mp3"
+        }
+    ],
     "barrelSpeed": 0.005,
     "barrelAmplitude": 100,
     "about": {

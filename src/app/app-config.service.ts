@@ -22,13 +22,12 @@ export class AppConfigService {
       });
   }
 
-  getRandomCharacter(): string {
-    let character = this.appConfig.characters[Math.floor(Math.random() * this.appConfig.characters.length)];
-    return this.appConfig.charactersPath.replace('*', character);
+  getCharacterOptions(): any[] {
+    return this.appConfig.characters;
   }
 
-  getSongSource(): string {
-    return this.appConfig.songSource;
+  getSongOptions(): any[] {
+    return this.appConfig.songs;
   }
 
   getAbout(): string {

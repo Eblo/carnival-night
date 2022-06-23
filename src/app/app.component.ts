@@ -25,17 +25,24 @@ export class AppComponent implements OnInit, AfterViewInit {
   barrelPos: number = 0;
   barrelAmplitude: number;
 
-  character: string;
-  songSource: string;
+  currentCharacter: any;
+  characterOptions: any[];
+  songOptions: any[];
+  currentSong: any;
   about: any;
   appConfigService: AppConfigService;
 
   aboutVisible = false;
+  optionsVisible = false;
 
   constructor(appConfigService: AppConfigService) {
     this.appConfigService = appConfigService;
-    this.character = this.appConfigService.getRandomCharacter();
-    this.songSource = this.appConfigService.getSongSource();
+    this.characterOptions = this.appConfigService.getCharacterOptions();
+    this.characterOptions.forEach(c => c.class = "disabled");
+    this.setCharacter(this.characterOptions[Math.floor((Math.random()*this.characterOptions.length))]);
+    this.songOptions = this.appConfigService.getSongOptions();
+    this.songOptions.forEach(c => c.class = "disabled");
+    this.setSong(this.songOptions[Math.floor((Math.random()*this.songOptions.length))]);
     this.barrelSpeed = this.appConfigService.getBarrelSpeed();
     this.barrelAmplitude = this.appConfigService.getBarrelAmplitude();
     this.about = this.appConfigService.getAbout();
@@ -87,6 +94,12 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   toggleAbout(): void {
     this.aboutVisible = !this.aboutVisible;
+    this.optionsVisible = false;
+  }
+
+  toggleOptions(): void {
+    this.optionsVisible = !this.optionsVisible;
+    this.aboutVisible = false;
   }
 
   toggleAudio(): void {
@@ -96,6 +109,26 @@ export class AppComponent implements OnInit, AfterViewInit {
     } else {      
       this.audio.nativeElement.muted = !this.audio.nativeElement.muted;
       this.audioIcon = this.audio.nativeElement.muted ? this.appConfigService.getMutedAudioIcon() : this.appConfigService.getAudioIcon();
+    }
+  }
+
+  setCharacter(character: any): void {
+    if(this.currentCharacter === character) return;
+    if(this.currentCharacter) this.currentCharacter.class = "disabled";
+    this.currentCharacter = character;
+    this.currentCharacter.class = "enabled";
+  }
+
+  setSong(song: any): void {
+    if(this.currentSong === song) return;
+    if(this.currentSong) this.currentSong.class = "disabled";
+    this.currentSong = song;
+    this.currentSong.class = "enabled";
+    if(this.audio?.nativeElement) {
+      this.audio.nativeElement.setAttribute('src', this.currentSong.source);
+      this.audio.nativeElement.pause();
+      this.audio.nativeElement.play();
+      this.audioIcon = this.appConfigService.getAudioIcon();
     }
   }
 
