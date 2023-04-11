@@ -58,7 +58,7 @@ button {
 }
 
 .enabled {
-    cursor: default;
+    cursor: pointer;
     font-weight: bold;
 }
 

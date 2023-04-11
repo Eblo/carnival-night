@@ -10,7 +10,7 @@ import { AppConfigService } from './app-config.service';
 export class AppComponent implements OnInit, AfterViewInit {
   title = 'carnival-night';
 
-  @ViewChild('sonicCanvas') sonicCanvas!: ElementRef<HTMLCanvasElement>;
+  @ViewChild('sceneCanvas') sceneCanvas!: ElementRef<HTMLCanvasElement>;
   context!: CanvasRenderingContext2D;
 
   @ViewChild('bgm') audio!: ElementRef;
@@ -53,20 +53,17 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    let context = this.sonicCanvas.nativeElement.getContext('2d');
-    // Angular will bitch if we don't do this check
-    if(context != null) {
-      this.context = context;
-      this.context.scale(this.zoom, this.zoom);
-      this.tick();
-    }
+    const context = this.sceneCanvas.nativeElement.getContext('2d');
+    this.context = context!;
+    this.context.scale(this.zoom, this.zoom);
+    this.tick();
   }
 
   tick(): void {
-    this.sonicCanvas.nativeElement.width = window.innerWidth;
-    this.sonicCanvas.nativeElement.height = window.innerHeight;
+    this.sceneCanvas.nativeElement.width = window.innerWidth;
+    this.sceneCanvas.nativeElement.height = window.innerHeight;
     let time = Date.now();    
-    this.context.clearRect(0, 0, this.sonicCanvas.nativeElement.width, this.sonicCanvas.nativeElement.height);
+    this.context.clearRect(0, 0, this.sceneCanvas.nativeElement.width, this.sceneCanvas.nativeElement.height);
     this.advanceBounce(time);
     let baseY = this.centerSpriteY(this.barrel) + this.characterSprite.height + this.barrelPos;
     this.barrel.drawToCanvas(this.context, this.centerSpriteX(this.barrel), baseY, time);
@@ -79,11 +76,11 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   centerSpriteX(sprite: AnimatedSpriteComponent): number {
-    return (this.sonicCanvas.nativeElement.width - sprite.width / sprite.frames) / 2;
+    return (this.sceneCanvas.nativeElement.width - sprite.width / sprite.frames) / 2;
   }
 
   centerSpriteY(sprite: AnimatedSpriteComponent): number {
-    return (this.sonicCanvas.nativeElement.height - sprite.height) / 4;
+    return (this.sceneCanvas.nativeElement.height - sprite.height) / 4;
   }
 
   characterPosition(): number {
@@ -113,10 +110,15 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   setCharacter(character: any): void {
-    if(this.currentCharacter === character) return;
-    if(this.currentCharacter) this.currentCharacter.class = "disabled";
-    this.currentCharacter = character;
-    this.currentCharacter.class = "enabled";
+    if(this.currentCharacter === character) {
+      // Selected same character, so toggle the super form
+      this.characterSprite.toggleSuperForm();
+    } else {
+      // Selected different character
+      if(this.currentCharacter) this.currentCharacter.class = "disabled";
+      this.currentCharacter = character;
+      this.currentCharacter.class = "enabled";
+    }
   }
 
   setSong(song: any): void {

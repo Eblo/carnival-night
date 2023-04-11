@@ -3,17 +3,21 @@
         {
             "name": "Sonic",
             "graphic": "assets/character/sonic.png",
-            "icon": "assets/character/soniclife.png"
+            "icon": "assets/character/soniclife.png",
+            "superShader": "superSonic",
+            "superGraphic": "assets/character/supersonic.png"
         },
         {
             "name": "Tails",
             "graphic": "assets/character/tails.png",
-            "icon": "assets/character/tailslife.png"
+            "icon": "assets/character/tailslife.png",
+            "superShader": "superTails"
         },
         {
             "name": "K.T.E.",
             "graphic": "assets/character/knuckles.png",
-            "icon": "assets/character/knuckleslife.png"
+            "icon": "assets/character/knuckleslife.png",
+            "superShader": "superKnuckles"
         }
     ],
     "songs" : [
@@ -61,7 +65,7 @@
             },
             {
                 "role": "Programming",
-                "handle": "@EbloG",
+                "handle": "@Eblo_G",
                 "link": "https://twitter.com/Eblo_G"
             }
         ],

@@ -16,13 +16,15 @@
 
 <div class="options" [hidden]="!optionsVisible">
     <h3>Songs</h3>
+    <!-- TODO: Change it to have Act 1/2 options and port options (Genesis, PC, Prototype, Origins)-->
     <li (click)="setSong(song)" *ngFor="let song of songOptions" [class]="song.class" [title]="song.title">
         {{ song.title }}
     </li>
-    <h3>Stars</h3>
+    <h3>STARS</h3>
     <img [src]="character.icon" (click)="setCharacter(character)" *ngFor="let character of characterOptions" [class]="character.class" [title]="character.name">
 </div>
 
-<canvas #sonicCanvas></canvas>
-<app-animated-sprite #characterSprite [graphic]="currentCharacter.graphic" [frames]="12" [frameRate]="12"></app-animated-sprite>
-<app-animated-sprite #barrelSprite graphic="assets/barrel.png" [frames]="4" [frameRate]="15"></app-animated-sprite>
+<canvas #sceneCanvas></canvas>
+<app-animated-sprite #characterSprite [normalGraphic]="currentCharacter.graphic" [superGraphic]="currentCharacter.superGraphic" [frames]="12" [frameRate]="12" [superShader]="currentCharacter.superShader"></app-animated-sprite>
+<app-animated-sprite #barrelSprite normalGraphic="assets/barrel.png" [frames]="4" [frameRate]="15"></app-animated-sprite>
+<!-- TODO: Google analytics visit tracker -->
