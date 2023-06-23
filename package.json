@@ -1,6 +1,6 @@
 {
   "name": "carnival-night",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -9,6 +9,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "build-for-github": "npm run build -- --prod --baseHref=https://carnivalnight.zone/",
+    "build-local": "npm run build -- --prod --baseHref=http://127.0.0.1:8080",
     "serve": "http-server docs"
   },
   "private": true,

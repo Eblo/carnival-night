@@ -27,7 +27,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   currentCharacter: any;
   characterOptions: any[];
-  songOptions: any[];
+  songOptions: any[] = [];
   currentSong: any;
   about: any;
   appConfigService: AppConfigService;
@@ -40,9 +40,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     this.characterOptions = this.appConfigService.getCharacterOptions();
     this.characterOptions.forEach(c => c.class = "disabled");
     this.setCharacter(this.characterOptions[Math.floor((Math.random()*this.characterOptions.length))]);
-    this.songOptions = this.appConfigService.getSongOptions();
-    this.songOptions.forEach(c => c.class = "disabled");
-    this.setSong(this.songOptions[Math.floor((Math.random()*this.songOptions.length))]);
+    this.initializeAudio();
     this.barrelSpeed = this.appConfigService.getBarrelSpeed();
     this.barrelAmplitude = this.appConfigService.getBarrelAmplitude();
     this.about = this.appConfigService.getAbout();
@@ -132,6 +130,26 @@ export class AppComponent implements OnInit, AfterViewInit {
       this.audio.nativeElement.play();
       this.audioIcon = this.appConfigService.getAudioIcon();
     }
+  }
+
+  initializeAudio(): void {
+    this.songOptions = this.appConfigService.getSongOptions();
+    this.songOptions.forEach(song => song.class = "disabled");
+
+    // Perform a weighted sample
+    const totalWeight = this.songOptions.reduce((sum, song) => sum + song.weight, 0);
+    const randomWeight = Math.random() * totalWeight;    
+    let firstSong = null;
+    let accumulatedWeight = 0;    
+    for (const song of this.songOptions) {
+      accumulatedWeight += song.weight;
+    
+      if (randomWeight <= accumulatedWeight) {
+        firstSong = song;
+        break;
+      }
+    }    
+    this.setSong(firstSong);
   }
 
 }

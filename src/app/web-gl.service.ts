@@ -66,7 +66,7 @@ export class WebGLService {
           if(gl_FragColor.r > 0.0 && gl_FragColor.g > 0.0 && gl_FragColor.b == 0.0) {
             float brightestColor = max(max(gl_FragColor.r, gl_FragColor.g), gl_FragColor.b);
             vec4 grayColor = vec4(brightestColor, brightestColor, brightestColor, gl_FragColor.a);
-            float phase = sin(float(u_time) * 0.0075);
+            float phase = sin(float(u_time) * 0.0067);
             float amount = 0.5 + 0.25 * phase;
             gl_FragColor = mix(gl_FragColor, grayColor, amount);
           }
@@ -82,13 +82,29 @@ export class WebGLService {
         void main() {
           gl_FragColor = texture2D(u_image, v_texCoord);
           if(gl_FragColor.g < gl_FragColor.r * 0.5 && gl_FragColor.b < gl_FragColor.r * 0.5 && (gl_FragColor.g > 0.0 || gl_FragColor.b > 0.0)) {
-            float brightestColor = max(max(gl_FragColor.r, gl_FragColor.g), gl_FragColor.b);
-            vec4 grayColor = vec4(0.85, brightestColor, brightestColor, gl_FragColor.a);
-            float phase = sin(float(u_time) * 0.0075);
-            float amount = 0.5 + 0.25 * phase;
+            vec4 grayColor = 1.5 * vec4(0.91, 0.6, 0.75, gl_FragColor.a);
+            float phase = sin(float(u_time) * 0.0067);
+            float amount = 0.5 + 0.4 * phase;
             gl_FragColor = mix(gl_FragColor, grayColor, amount);
           }
-        }`
+        }`,
+
+      'superAmy': `
+          precision mediump float;
+    
+          varying vec2 v_texCoord;
+          uniform sampler2D u_image;
+          uniform int u_time;
+          
+          void main() {
+            gl_FragColor = texture2D(u_image, v_texCoord);
+            if(gl_FragColor.g < gl_FragColor.r && gl_FragColor.g < gl_FragColor.b) {
+              vec4 grayColor = 1.5 * vec4(0.91, 0.7, 0.91, gl_FragColor.a);
+              float phase = sin(float(u_time) * 0.0067);
+              float amount = 0.5 + 0.4 * phase;
+              gl_FragColor = mix(gl_FragColor, grayColor, amount);
+            }
+          }`
    }
     
    private vertexShader: string = `

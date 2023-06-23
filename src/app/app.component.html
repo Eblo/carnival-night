@@ -20,7 +20,7 @@
     <li (click)="setSong(song)" *ngFor="let song of songOptions" [class]="song.class" [title]="song.title">
         {{ song.title }}
     </li>
-    <h3>STARS</h3>
+    <h3 title="Select your character. Select again for a surprise...">STARS</h3>
     <img [src]="character.icon" (click)="setCharacter(character)" *ngFor="let character of characterOptions" [class]="character.class" [title]="character.name">
 </div>
 
