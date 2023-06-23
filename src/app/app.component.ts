@@ -60,7 +60,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   tick(): void {
     this.sceneCanvas.nativeElement.width = window.innerWidth;
     this.sceneCanvas.nativeElement.height = window.innerHeight;
-    let time = Date.now();    
+    let time = performance.now();
     this.context.clearRect(0, 0, this.sceneCanvas.nativeElement.width, this.sceneCanvas.nativeElement.height);
     this.advanceBounce(time);
     let baseY = this.centerSpriteY(this.barrel) + this.characterSprite.height + this.barrelPos;

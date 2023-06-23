@@ -23,14 +23,13 @@ export class AnimatedSpriteComponent implements OnInit {
 
   @ViewChild('webGlCanvas') webGlCanvas!: ElementRef<HTMLCanvasElement>;
 
-  currentTime: number = Date.now();
+  currentTime: number = 0;
   frameDuration: number = 0;
   ready: boolean = false;
   // Barrel reference: https://youtu.be/dZQy1vO1naQ?t=2421
 
   sprite!: HTMLImageElement;
   texture!: WebGLTexture;
-  imageToDraw!: HTMLImageElement;
   gl!: WebGLRenderingContext;
 
   program!: WebGLProgram;
@@ -85,7 +84,6 @@ export class AnimatedSpriteComponent implements OnInit {
       }
     };
     this.sprite.src = this.currentGraphic = this.normalGraphic;
-    this.imageToDraw = new Image();
   }
 
   drawToCanvas(context: CanvasRenderingContext2D, x: number, y: number, time: number): void {
@@ -101,7 +99,7 @@ export class AnimatedSpriteComponent implements OnInit {
     }
     this.glDraw(time);
     this.animate(time);
-    context.drawImage(this.imageToDraw, this.width * this.frame, 0, this.width, this.height, x, y, this.width, this.height);
+    context.drawImage(this.webGlCanvas.nativeElement, this.width * this.frame, 0, this.width, this.height, x, y, this.width, this.height);
   }
 
   toggleSuperForm(): void {
@@ -135,11 +133,9 @@ export class AnimatedSpriteComponent implements OnInit {
     this.gl.texImage2D(this.gl.TEXTURE_2D, 0, this.gl.RGBA, this.gl.RGBA, this.gl.UNSIGNED_BYTE, this.sprite);
 
     const timeUniformLocation = this.gl.getUniformLocation(this.activeProgram, 'u_time');
-    // AND by 0xFFFFF to make the number usable in GLSL. This will last >17 minutes before possible looping issues
-    this.gl.uniform1i(timeUniformLocation, time & 0xfffff);
+    this.gl.uniform1i(timeUniformLocation, time);
 
     this.gl.drawArrays(this.gl.TRIANGLES, 0, 6);
-    this.imageToDraw.src = this.webGlCanvas.nativeElement.toDataURL();
   }
 
 }
