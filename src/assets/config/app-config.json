@@ -74,13 +74,13 @@
         "roles": [
             {
                 "role": "Concept",
-                "handle": "@Ginger_Hail",
-                "link": "https://twitter.com/Ginger_Hail"
+                "handle": "@gingerhail.bsky.social",
+                "link": "https://bsky.app/profile/gingerhail.bsky.social"
             },
             {
                 "role": "Programming",
-                "handle": "@Eblo_G",
-                "link": "https://twitter.com/Eblo_G"
+                "handle": "Eblo",
+                "link": "https://github.com/Eblo/"
             }
         ],
         "copyright" : "All characters and music are copyright © SEGA"
